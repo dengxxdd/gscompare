@@ -1,0 +1,17 @@
+﻿{
+  "Passport": {
+    "Title": "共持有{Total}本证件：",
+    "TempStr": "{PassportNo},有效期{IssuingDate}至{ValidDate}",
+    "ResultStr": "{ResultType}本人持有{Total}本证件：{PassportNo},有效期{IssuingDate}至{ValidDate}"
+  },
+  "Leave": {
+    "Title": "共有{Total}次出境记录：",
+    "TempStr": "{IssuingDate}至{ValidDate}前往{Country}",
+    "ResultStr": "{ResultType}本人出入境情况，"
+  }
+
+}
+
+
+
+

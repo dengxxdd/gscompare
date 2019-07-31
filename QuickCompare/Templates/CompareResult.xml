@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<CompareResult>
+  <Passport>
+    <Report>本人持有{0}本护照，{1}</Report>
+    <Report>本人持有{0}本护照，{1}</Report>
+    <Date>2013-10-11</Date>
+    <Adress>上海</Adress>
+    <Date>2013-10-11</Date>
+  </Passport>
+     <Book>
+         <Name BookName="WCF">WCF入门</Name>
+         <Author Name="Mary">Mary</Author>
+         <Adress>北京</Adress>
+         <Date>2013-10-11</Date>
+  </Book>
+  <None>无此类情况</None>
+  
+</CompareResult>
