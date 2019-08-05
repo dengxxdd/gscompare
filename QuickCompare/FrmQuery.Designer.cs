@@ -52,6 +52,7 @@
             this.feedback_business = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.IsImport = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Count = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.toolStripButton3 = new System.Windows.Forms.ToolStripButton();
             this.toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvQueryList)).BeginInit();
             this.SuspendLayout();
@@ -60,6 +61,7 @@
             // 
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripButton1,
+            this.toolStripButton3,
             this.toolStripButton2,
             this.toolStripSeparator1});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
@@ -308,6 +310,15 @@
             this.Count.ReadOnly = true;
             this.Count.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
+            // toolStripButton3
+            // 
+            this.toolStripButton3.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton3.Image")));
+            this.toolStripButton3.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton3.Name = "toolStripButton3";
+            this.toolStripButton3.Size = new System.Drawing.Size(84, 53);
+            this.toolStripButton3.Text = "导入填报数据";
+            this.toolStripButton3.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            // 
             // FrmQuery
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -353,5 +364,6 @@
         private System.Windows.Forms.DataGridViewCheckBoxColumn feedback_business;
         private System.Windows.Forms.DataGridViewTextBoxColumn IsImport;
         private System.Windows.Forms.DataGridViewTextBoxColumn Count;
+        private System.Windows.Forms.ToolStripButton toolStripButton3;
     }
 }

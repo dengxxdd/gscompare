@@ -63,27 +63,57 @@ namespace DXD.DTV
             //计算反馈数据
 
             //计算本人兼职情况
-            List<string> busNameList = new List<string>();
-            List<string> partTimeJobList = new List<string>();
-            DataRow[] rows = dtFeedback.Select(string.Format("fee_query_id={0} and fee_subscribe=0", query_id));
+            DataRow[] rows = dtFeedback.Select(string.Format("fee_subscribe=0", query_id));
             StringBuilder partTimeJobStr = new StringBuilder();
             
             if (rows.Length > 0)
             {
+                partTimeJobStr.Append(templatePart["Title"].Replace("{Total}", rows.Length.ToString()));
                 foreach (DataRow dr in rows)
                 {
-                    busNameList.Add(dr["fee_bus_name"].ToString());
-                    partTimeJobList.Add(dr["fee_office"].ToString());
-                }
-                partTimeJobStr.Append(templatePart["Title"].Replace("{Total}", busNameList.Count.ToString()));
-                for (int i = 0; i < busNameList.Count; i++)
-                {
-                    partTimeJobStr.Append(templatePart["TempStr"].Replace("{BusName}", busNameList[i])
-                    .Replace("{Post}", partTimeJobList[i].ToString()) + "、");
-                }
+                    BLL.query_detail bll = new BLL.query_detail();
+                    Model.query_detail model = bll.GetModel(int.Parse(dr["fee_query_id"].ToString()));
+                    int appTypeIndex = 0;
+                    switch (model.appellation)
+                    {
+                        case "301"://本人
+                            appTypeIndex = appType.Self;
+                            break;
+                        case "302"://配偶
+                            appTypeIndex = appType.Spouse;
+                            break;
+                        case "303"://儿子
+                            appTypeIndex = appType.Son;
+                            break;
+                        case "304"://女儿  
+                            appTypeIndex = appType.Daughter;
+                            break;
+                        case "305"://媳妇
+                            appTypeIndex = appType.Daughter_in_law;
+                            break;
+                        case "306"://女婿 
+                            appTypeIndex = appType.Son_in_law;
+                            break;
+                        default:
+                            break;
+                    }
+                    if (appTypeIndex == appType.Self)
+                    {
+                        partTimeJobStr.Append(templatePart["TempStr"].Replace("{Appellation}",strApps[appTypeIndex]).Replace("{BusName}", dr["fee_bus_name"].ToString())
+                                            .Replace("{Post}", dr["fee_office"].ToString()) + "、");
+                    }
+                    else
+                    {
+                        partTimeJobStr.Append(templatePart["TempStr"].Replace("{Appellation}",strApps[appTypeIndex]+dr["fee_full_name"].ToString()).Replace("{BusName}", dr["fee_bus_name"].ToString())
+                                            .Replace("{Post}", dr["fee_office"].ToString()) + "、");
+                    }                    
+                }                
+                
                 result.Add("Feedback", partTimeJobStr.ToString());
                 result["Feedback"] = result["Feedback"].Substring(0, result["Feedback"].Length - 1) + "。";
             }
+
+
 
             //计算投资企业情况
             Dictionary<int, List<double>> busValues = new Dictionary<int, List<double>>();
@@ -168,26 +198,54 @@ namespace DXD.DTV
             ////计算个人报告数据
 
             //计算本人兼职情况
-            busNameList = new List<string>();
-            partTimeJobList = new List<string>();
-            rows = dtReport.Select(string.Format("rep_query_id={0} and rep_subscribe=0", query_id));
+            rows = dtReport.Select(string.Format("rep_subscribe=0", query_id));
             partTimeJobStr = new StringBuilder();
                         
             if (rows.Length > 0)
             {
+                partTimeJobStr.Append(templatePart["Title"].Replace("{Total}", rows.Length.ToString()));
                 foreach (DataRow dr in rows)
                 {
-                    busNameList.Add(dr["rep_bus_name"].ToString());
-                    partTimeJobList.Add(dr["rep_office"].ToString());
+                    BLL.query_detail bll = new BLL.query_detail();
+                    Model.query_detail model = bll.GetModel(int.Parse(dr["rep_query_id"].ToString()));
+                    int appTypeIndex = 0;
+                    switch (model.appellation)
+                    {
+                        case "301"://本人
+                            appTypeIndex = appType.Self;
+                            break;
+                        case "302"://配偶
+                            appTypeIndex = appType.Spouse;
+                            break;
+                        case "303"://儿子
+                            appTypeIndex = appType.Son;
+                            break;
+                        case "304"://女儿  
+                            appTypeIndex = appType.Daughter;
+                            break;
+                        case "305"://媳妇
+                            appTypeIndex = appType.Daughter_in_law;
+                            break;
+                        case "306"://女婿 
+                            appTypeIndex = appType.Son_in_law;
+                            break;
+                        default:
+                            break;
+                    }
+                    if (appTypeIndex == appType.Self)
+                    {
+                        partTimeJobStr.Append(templatePart["TempStr"].Replace("{Appellation}", strApps[appTypeIndex]).Replace("{BusName}", dr["rep_bus_name"].ToString())
+                                            .Replace("{Post}", dr["rep_office"].ToString()) + "、");
+                    }
+                    else
+                    {
+                        partTimeJobStr.Append(templatePart["TempStr"].Replace("{Appellation}", strApps[appTypeIndex] + dr["rep_full_name"].ToString()).Replace("{BusName}", dr["rep_bus_name"].ToString())
+                                            .Replace("{Post}", dr["rep_office"].ToString()) + "、");
+                    }
                 }
-                partTimeJobStr.Append(templatePart["Title"].Replace("{Total}", busNameList.Count.ToString()));
-                for (int i = 0; i < busNameList.Count; i++)
-                {
-                    partTimeJobStr.Append(templatePart["TempStr"].Replace("{BusName}", busNameList[i])
-                    .Replace("{Post}", partTimeJobList[i].ToString())+"、");                    
-                }
+
                 result.Add("Report", partTimeJobStr.ToString());
-                result["Report"] = result["Report"].Substring(0, result["Report"].Length - 1) + "。";
+                result["Report"] = result["Report"].Substring(0, result["Report"].Length - 1) + "。";                
             }
 
             //计算投资企业情况
@@ -270,25 +328,52 @@ namespace DXD.DTV
 
             //计算比对结果数据
 
-            //计算本人兼职情况
-            busNameList = new List<string>();
-            partTimeJobList = new List<string>();
-            rows = dtFeedback.Select(string.Format("fee_query_id={0} and fee_subscribe=0 and fee_is_match=False", query_id));
+            //计算兼职情况
+            rows = dtFeedback.Select(string.Format("fee_subscribe=0 and fee_is_match=False", query_id));
             partTimeJobStr = new StringBuilder();
 
             if (rows.Length > 0)
             {
                 foreach (DataRow dr in rows)
                 {
-                    busNameList.Add(dr["fee_bus_name"].ToString());
-                    partTimeJobList.Add(dr["fee_office"].ToString());
+                    BLL.query_detail bll = new BLL.query_detail();
+                    Model.query_detail model = bll.GetModel(int.Parse(dr["fee_query_id"].ToString()));
+                    int appTypeIndex = 0;
+                    switch (model.appellation)
+                    {
+                        case "301"://本人
+                            appTypeIndex = appType.Self;
+                            break;
+                        case "302"://配偶
+                            appTypeIndex = appType.Spouse;
+                            break;
+                        case "303"://儿子
+                            appTypeIndex = appType.Son;
+                            break;
+                        case "304"://女儿  
+                            appTypeIndex = appType.Daughter;
+                            break;
+                        case "305"://媳妇
+                            appTypeIndex = appType.Daughter_in_law;
+                            break;
+                        case "306"://女婿 
+                            appTypeIndex = appType.Son_in_law;
+                            break;
+                        default:
+                            break;
+                    }
+                    if (appTypeIndex == appType.Self)
+                    {
+                        partTimeJobStr.Append(templatePart["TempStr"].Replace("{Appellation}", strApps[appTypeIndex]).Replace("{BusName}", dr["fee_bus_name"].ToString())
+                                            .Replace("{Post}", dr["fee_office"].ToString()) + "、");
+                    }
+                    else
+                    {
+                        partTimeJobStr.Append(templatePart["TempStr"].Replace("{Appellation}", strApps[appTypeIndex] + dr["fee_full_name"].ToString()).Replace("{BusName}", dr["fee_bus_name"].ToString())
+                                            .Replace("{Post}", dr["fee_office"].ToString()) + "、");
+                    }                   
                 }
-                partTimeJobStr.Append(templatePart["Title"].Replace("{Total}", busNameList.Count.ToString()));
-                for (int i = 0; i < busNameList.Count; i++)
-                {
-                    partTimeJobStr.Append(templatePart["TempStr"].Replace("{BusName}", busNameList[i])
-                    .Replace("{Post}", partTimeJobList[i].ToString()) + "、");
-                }
+                partTimeJobStr.Append(templatePart["Title"].Replace("{Total}", rows.Length.ToString()));               
                 result.Add("Compare", templatePart["UnreportStr"] + partTimeJobStr.ToString());
                 result["Compare"] = result["Compare"].Substring(0, result["Compare"].Length - 1) + "。";
             }

@@ -22,18 +22,15 @@ namespace DXD.QuickCompare
         public FrmCompare(int query_id)
         {
             InitializeComponent();
-            //this.uPassportCompare1.query_id = this.uLeaveCompare1.query_id =
-            //this.uHouseCompare1.query_id = this.uSharesCompare1.query_id =
-            //this.uFundCompare1.query_id = this.uInsuranceCompare1.query_id =
-            //this.uBusinesControl1.query_id = this.uLifeAbroadControl1.query_id = query_id;
+            this.uBusinesControl1.query_id = query_id;
         }
 
         private void FrmCompare_Load(object sender, EventArgs e)
         {
-            //BLL.query_detail bll = new BLL.query_detail();
-            //Model.query_detail model = bll.GetModel(this.uPassportCompare1.query_id);
-            //this.Text = String.Format("数据比对（姓名：{0}，工作单位：{1}，职务：{2}",model.full_name,model.work_unit,
-            //    model.post);
+            BLL.query_detail bll = new BLL.query_detail();
+            Model.query_detail model = bll.GetModel(this.uBusinesControl1.query_id);
+            this.Text = String.Format("数据比对（姓名：{0}，工作单位：{1}，职务：{2}", model.full_name, model.work_unit,
+                model.post);
         }
         #endregion
         private void FrmCompare_FormClosed(object sender, FormClosedEventArgs e)

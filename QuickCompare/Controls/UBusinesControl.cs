@@ -26,34 +26,34 @@ namespace DXD.QuickCompare.Controls
             this.dgvCompare.ColumnHeadersHeight = this.dgvCompare.ColumnHeadersHeight * 2;
             this.dgvCompare.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.BottomCenter;
 
-            //DTV.Business business = new DTV.Business();
+            DTV.Business business = new DTV.Business();
 
-            ////载入反馈数据
-            //dgvFeedback.DataSource = business.LoadFeedback(query_id);
+            //载入反馈数据
+            dgvFeedback.DataSource = business.LoadFeedback(query_id);
 
-            ////载入个人报告数据            
-            //dgvReport.DataSource = business.LoadReport(query_id);
+            //载入个人报告数据            
+            dgvReport.DataSource = business.LoadReport(query_id);
 
-            ////载入比对匹配数据            
-            //dgvCompare.DataSource = business.LoadCompare(query_id);
-            //dgvFeedback.ClearSelection();
-            //dgvReport.ClearSelection();
-            //dgvCompare.ClearSelection();
+            //载入比对匹配数据            
+            dgvCompare.DataSource = business.LoadCompare(query_id);
+            dgvFeedback.ClearSelection();
+            dgvReport.ClearSelection();
+            dgvCompare.ClearSelection();
 
-            ////载入比对结果数据
-            //DataTable dt = business.LoadCompareResult(query_id);
+            //载入比对结果数据
+            DataTable dt = business.LoadCompareResult(query_id);
 
-            //if (dt.Rows.Count == 1)
-            //{ 
-            //    tbReport.Text = dt.Rows[0]["report_str"].ToString();
-            //    tbFeedback.Text = dt.Rows[0]["feedback_str"].ToString();
-            //    tbCompare.Text = dt.Rows[0]["compare_str"].ToString();
-            //}
+            if (dt.Rows.Count == 1)
+            {
+                tbReport.Text = dt.Rows[0]["report_str"].ToString();
+                tbFeedback.Text = dt.Rows[0]["feedback_str"].ToString();
+                tbCompare.Text = dt.Rows[0]["compare_str"].ToString();
+            }
 
-            //if (dt.Rows.Count == 0)
-            //{
-            //    GetCompareResult();
-            //}
+            if (dt.Rows.Count == 0)
+            {
+                GetCompareResult();
+            }
         }
 
         private void dgvFeedback_CellContentClick(object sender, DataGridViewCellEventArgs e)
